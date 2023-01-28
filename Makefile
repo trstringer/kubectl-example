@@ -1,3 +1,5 @@
+DESTINATION_DIR=$$HOME/.local/bin
+
 .PHONY: build
 build:
 	mkdir -p ./bin
@@ -5,4 +7,4 @@ build:
 
 .PHONY: install
 install: build
-	cp ./bin/kubectl-example $$HOME/.local/bin
+	cp ./bin/kubectl-example $(DESTINATION_DIR)
