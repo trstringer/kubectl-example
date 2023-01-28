@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: STRING
+  namespace: STRING
+spec:
+  replicas: 1234
+  selector:
+    matchLabels:
+      STRING: STRING
+  template:
+    metadata:
+      labels:
+        STRING: STRING
+    spec:
+      containers:
+        - name: STRING
+          image: STRING
+          imagePullPolicy: STRING  # Always, IfNotPresent, Never
+          ports:
+            - containerPort: 1234

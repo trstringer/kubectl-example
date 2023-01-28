@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: STRING
+  namespace: STRING
+spec:
+  containers:
+    - name: STRING
+      image: STRING
+      imagePullPolicy: STRING  # Always, IfNotPresent, Never
+      ports:
+        - containerPort: 1234
