@@ -8,8 +8,7 @@ import (
 	"strings"
 )
 
-//go:embed examples/*.yaml
-//go:embed examples/istio/*.yaml
+//go:embed examples/*
 var examples embed.FS
 
 const examplesDir string = "examples"
