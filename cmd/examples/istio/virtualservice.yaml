@@ -1,0 +1,31 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: STRING
+  namespace: STRING
+spec:
+  hosts:
+    - STRING
+  http:
+    - name: STRING
+      # All match blocks are AND'd
+      match:
+        - uri:
+            prefix: STRING
+        - uri:
+            exact: STRING
+        - uri:
+            regex: STRING
+      route:
+        - destination:
+            host: STRING
+            subset: STRING
+            port: 1234
+          weight: 1234
+      rewrite:
+        uri: STRING
+      # Delegate to a different VirtualService. Exclusive from using a
+      # spec.http.route for a destination.
+      delegate:
+        name: STRING
+        namespace: STRING

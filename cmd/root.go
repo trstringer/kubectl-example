@@ -21,7 +21,7 @@ var rootCmd = &cobra.Command{
 		if list {
 			resourceNames, err := getResources()
 			if err != nil {
-				fmt.Println("Error getting resource names")
+				fmt.Printf("Error getting resource names: %v\n", err)
 				os.Exit(1)
 			}
 			fmt.Println(strings.Join(resourceNames, "\n"))
