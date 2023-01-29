@@ -38,7 +38,7 @@ var rootCmd = &cobra.Command{
 			fmt.Printf("Error getting definitions: %v\n", err)
 			os.Exit(1)
 		}
-		fmt.Println(strings.Join(definitions, "---\n"))
+		fmt.Printf(strings.Join(definitions, "---\n"))
 	},
 }
 

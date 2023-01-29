@@ -1,1 +1,15 @@
-gateway api
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: STRING
+  namespace: STRING
+spec:
+  gatewayClassName: STRING
+  listeners:
+    - name: STRING
+      hostname: STRING
+      port: 1234
+      protocol: STRING
+      allowedRoutes:
+        namespaces:
+          from: STRING

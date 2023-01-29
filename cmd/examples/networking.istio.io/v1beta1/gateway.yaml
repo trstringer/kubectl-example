@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: STRING
+  namespace: STRING
+spec:
+  selector:
+    STRING: STRING  # Gateway pod label selector
+  servers:
+    - hosts:
+        - STRING
+      port:
+        number: 1234
+        name: STRING
+        protocol: STRING  # HTTP, HTTPS, GRPC, HTTP2, MONGO, TCP, TLS
+      tls:
+        httpsRedirect: true  # Not required, if true sends 301 for HTTP requests
+        mode: STRING         # PASSTHROUGH, SIMPLE, MUTUAL, AUTO_PASSTHROUGH, ISTIO_MUTUAL
+        # For key and certs, if using MUTUAL or SIMPLE you need to pass in
+        # the server certificate and private key as either file paths, or
+        # within a credentialName, which is a generic secret stored in istio-system
+        # namespace with the data values `key`, `cert`, and with MUTUAL `cacert`.
+        serverCertificate: STRING  # File path. Required if mode is SIMPLE or MUTUAL, and credentialName not specified
+        privateKey: STRING         # File path. Required if mode is SIMPLE or MUTUAL, and credentialName not specified
+        caCertificates: STRING     # File path. Required if mode is MUTUAL, and credentialName not specified
+        credentialName: STRING     # istio-system secret name, replaces serverCertificate, privateKey, and caCertificates
