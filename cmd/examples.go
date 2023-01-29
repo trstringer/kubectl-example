@@ -19,31 +19,58 @@ func resourceNameFromFile(filename string) string {
 	return fileName
 }
 
-func getResourcesByDir(dir string) ([]string, error) {
+func resourcePathFromDir(dir string) string {
+	dirParts := strings.Split(dir, "/")
+	if dirParts[0] != examplesDir {
+		return dir
+	}
+	return strings.Join(dirParts[1:], "/")
+}
+
+func getResourcesByDir(dir string) (map[string][]string, error) {
+	resourceMap := make(map[string][]string)
 	files, err := examples.ReadDir(dir)
 	if err != nil {
 		return nil, err
 	}
-	resourceNames := []string{}
 
 	for _, file := range files {
 		if file.IsDir() {
-			subDirFiles, err := getResourcesByDir(filepath.Join(dir, file.Name()))
+			subResourceMap, err := getResourcesByDir(filepath.Join(dir, file.Name()))
 			if err != nil {
 				return nil, fmt.Errorf("error reading dir %s: %v", file.Name(), err)
 			}
-			resourceNames = append(resourceNames, subDirFiles...)
+			for resource, dirs := range subResourceMap {
+				resourceMap[resource] = append(resourceMap[resource], dirs...)
+			}
 		} else {
-			resourceNames = append(resourceNames, resourceNameFromFile(file.Name()))
+			resourceName := resourceNameFromFile(file.Name())
+			resourceMap[resourceName] = append(resourceMap[resourceName], resourcePathFromDir(dir))
 		}
 	}
-	sort.Strings(resourceNames)
 
-	return resourceNames, nil
+	return resourceMap, nil
 }
 
 func getResources() ([]string, error) {
-	return getResourcesByDir(examplesDir)
+	resourceMap, err := getResourcesByDir(examplesDir)
+	if err != nil {
+		return nil, err
+	}
+
+	resourceList := []string{}
+	for resource, dirs := range resourceMap {
+		if len(dirs) == 1 {
+			resourceList = append(resourceList, resource)
+			continue
+		}
+
+		sort.Strings(dirs)
+		resourceList = append(resourceList, fmt.Sprintf("%s %v", resource, dirs))
+	}
+
+	sort.Strings(resourceList)
+	return resourceList, nil
 }
 
 func findFileByName(dir, filename string) (string, error) {
@@ -71,18 +98,33 @@ func findFileByName(dir, filename string) (string, error) {
 
 func getResourcesByName(names []string) ([]string, error) {
 	definitions := []string{}
+	resourceMap, err := getResourcesByDir(examplesDir)
+	if err != nil {
+		return nil, fmt.Errorf("error getting resources by dir: %w", err)
+	}
 
 	for _, name := range names {
-		filename, err := findFileByName(examplesDir, name)
-		if err != nil {
-			return nil, err
+		nameParts := strings.Split(name, "/")
+		kind := nameParts[len(nameParts)-1]
+		groupVersion := strings.Join(nameParts[:len(nameParts)-1], "/")
+
+		kindGroupVersions, found := resourceMap[kind]
+		if !found {
+			return nil, fmt.Errorf("kind %s not found", name)
 		}
-		if filename == "" {
-			return nil, fmt.Errorf("resource %s not found", name)
+		if len(kindGroupVersions) > 1 && groupVersion == "" {
+			return nil, fmt.Errorf("ambigious kind %s, specify a group version prefix: %v", kind, kindGroupVersions)
 		}
-		contents, err := examples.ReadFile(filename)
+
+		if groupVersion == "" && len(kindGroupVersions) == 1 {
+			groupVersion = kindGroupVersions[0]
+		}
+
+		definitionPath := filepath.Join(examplesDir, groupVersion, kind)
+		definitionPath += ".yaml"
+		contents, err := examples.ReadFile(definitionPath)
 		if err != nil {
-			return nil, fmt.Errorf("error getting content for %s: %w", name, err)
+			return nil, fmt.Errorf("error reading path %s: %w", definitionPath, err)
 		}
 		definitions = append(definitions, string(contents))
 	}
