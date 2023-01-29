@@ -31,6 +31,7 @@ List out all available example manifests:
 ```
 $ kubectl example --list
 deployment
+gateway [gateway.networking.k8s.io/v1beta1 networking.istio.io/v1beta1]
 namespace
 pod
 service
