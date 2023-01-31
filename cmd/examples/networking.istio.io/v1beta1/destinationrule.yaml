@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: STRING
+  namespace: STRING
+spec:
+  host: STRING  # Service name from service registry
+  subsets:
+    - name: STRING
+      labels:
+        STRING: STRING
+  trafficPolicy:
+    loadBalancer:
+      # One of simple or consistentHash
+      simple: STRING  # ROUND_ROBIN, LEAST_REQUEST, PASSTHROUGH, RANDOM, UNSPECIFIED
+      consistentHash:
+        # One of the following
+        httpHeaderName: STRING
+        httpCookie:
+          name: STRING
+          ttl: 0s
+        useSourceIp: true

@@ -29,13 +29,13 @@ var rootCmd = &cobra.Command{
 		}
 
 		if len(args) == 0 {
-			fmt.Println("Pass in a resource to show or `--list`")
+			fmt.Fprintf(os.Stderr, "Pass in a resource to show or `--list`")
 			os.Exit(1)
 		}
 
 		definitions, err := getResourcesByName(args)
 		if err != nil {
-			fmt.Printf("Error getting definitions: %v\n", err)
+			fmt.Fprintf(os.Stderr, "Error getting definitions: %v\n", err)
 			os.Exit(1)
 		}
 		fmt.Printf(strings.Join(definitions, "---\n"))

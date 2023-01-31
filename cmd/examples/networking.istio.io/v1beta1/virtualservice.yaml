@@ -6,6 +6,11 @@ metadata:
 spec:
   hosts:
     - STRING
+  # Gateways bound to, format `namespace/gateway`. If omitted it is
+  # the `mesh` gateway. If no namespace, it uses the VirtualService
+  # namespace.
+  gateways:
+    - STRING
   http:
     - name: STRING
       # All match blocks are AND'd
@@ -20,7 +25,8 @@ spec:
         - destination:
             host: STRING
             subset: STRING
-            port: 1234
+            port:
+              number: 1234
           weight: 1234
       rewrite:
         uri: STRING

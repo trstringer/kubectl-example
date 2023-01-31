@@ -1,0 +1,13 @@
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: STRING
+  namespace: STRING
+spec:
+  jwtRules:
+    - issuer: STRING   # Required, JWT issuer from `iss` claim
+      jwksUri: STRING  # Public key set URL (either jwksUri or jwks should be set)
+      jwks: STRING     # JSON key set
+  selector:       # Optional, workload selector
+    matchLabels:
+      STRING: STRING

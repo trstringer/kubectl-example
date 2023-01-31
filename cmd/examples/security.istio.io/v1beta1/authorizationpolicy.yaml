@@ -1,0 +1,33 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: STRING
+  namespace: STRING
+spec:
+  action: STRING  # ALLOW (default), DENY, AUDIT, CUSTOM
+  selector:       # Optional, workload selector
+    matchLabels:
+      STRING: STRING
+  rules:
+    - from:
+        - source:
+            principals: ["STRING"]  # mTLS peer identities, format `<trust_domain>/ns/<namespace>/sa/<service_account>`
+            notPrincipals: ["STRING"]
+            requestPrincipals: ["STRING"]  # Request identities from JWT, format `iss/sub`
+            notRequestPrincipals: ["STRING"]
+            namespaces: ["STRING"]  # mTLS namespaces (if unset, any namespace allowed)
+            notNamespaces: ["STRING"]
+      to:
+        - operation:
+            paths: ["STRING"]
+            notPaths: ["STRING"]
+            methods: ["STRING"]
+            notMethods: ["STRING"]
+            hosts: ["STRING"]
+            notHosts: ["STRING"]
+            ports: ["STRING"]
+            notPorts: ["STRING"]
+      when:
+        - key: STRING  # Supported conditions: https://istio.io/latest/docs/reference/config/security/conditions
+          values: ["STRING"]
+          notValues: ["STRING"]

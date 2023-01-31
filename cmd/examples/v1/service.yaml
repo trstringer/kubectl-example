@@ -5,9 +5,11 @@ metadata:
   namespace: STRING
 spec:
   type: STRING          # ClusterIP (default), NodePort, LoadBalancer, ExternalName
-  externalName: STRING  # Only when spec.type is ExternalName
+  selector:
+    STRING: STRING
   ports:
     - name: STRING      # Optional if only a single port
       port: 1234        # Port exposed by service
       protocol: STRING  # TCP (default), UDP, SCTP
       targetPort: 1234
+  externalName: STRING  # Only when spec.type is ExternalName

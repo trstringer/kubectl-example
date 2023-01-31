@@ -8,5 +8,8 @@ spec:
     - name: STRING
       image: STRING
       imagePullPolicy: STRING  # Always, IfNotPresent, Never
+      command: ["STRING"]
+      args:
+        - STRING
       ports:
         - containerPort: 1234
