@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: STRING
+  namespace: STRING
+data:
+  # Single line data.
+  STRING: STRING
+  # Multiline data.
+  STRING: |
+    STRING
+    STRING
