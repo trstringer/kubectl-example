@@ -19,4 +19,4 @@ spec:
         httpCookie:
           name: STRING
           ttl: 0s
-        useSourceIp: true
+        useSourceIp: TRUE

@@ -14,7 +14,7 @@ spec:
         name: STRING
         protocol: STRING  # HTTP, HTTPS, GRPC, HTTP2, MONGO, TCP, TLS
       tls:
-        httpsRedirect: true  # Not required, if true sends 301 for HTTP requests
+        httpsRedirect: TRUE  # Not required, if true sends 301 for HTTP requests
         mode: STRING         # PASSTHROUGH, SIMPLE, MUTUAL, AUTO_PASSTHROUGH, ISTIO_MUTUAL
         # For key and certs, if using MUTUAL or SIMPLE you need to pass in
         # the server certificate and private key as either file paths, or
