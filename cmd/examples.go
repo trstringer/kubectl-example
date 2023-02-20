@@ -73,29 +73,6 @@ func getResources() ([]string, error) {
 	return resourceList, nil
 }
 
-func findFileByName(dir, filename string) (string, error) {
-	files, err := examples.ReadDir(dir)
-	if err != nil {
-		return "", fmt.Errorf("error reading dir %s: %v", dir, err)
-	}
-
-	for _, file := range files {
-		if file.IsDir() {
-			subDirSearch, err := findFileByName(filepath.Join(dir, file.Name()), filename)
-			if err != nil {
-				return "", err
-			}
-			if subDirSearch != "" {
-				return subDirSearch, nil
-			}
-		} else if resourceNameFromFile(file.Name()) == filename {
-			return filepath.Join(dir, file.Name()), nil
-		}
-	}
-
-	return "", nil
-}
-
 func getResourcesByName(names []string) ([]string, error) {
 	definitions := []string{}
 	resourceMap, err := getResourcesByDir(examplesDir)
